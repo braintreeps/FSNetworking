@@ -473,7 +473,10 @@ NSAssert(!self.didStart, @"method cannot be called after start: %s", __FUNCTION_
 
 - (void)failWithError:(NSError *)error {
     FSNLog(@"failWithError: %@\n  error: %@", self, error);
-    NSAssert(!self.error, @"error already set");
+    if (self.error) {
+        FSNLog(@"failWithError: %@\n error already set: %@", self, self.error);
+        return;
+    }
     self.error = error;
     
     [self performComplete];
